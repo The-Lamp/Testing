@@ -93,6 +93,13 @@
             }
         }
 
+        .copy-notification {
+            margin-top: 10px;
+            font-size: 1.2rem;
+            color: #ffeb3b;
+            display: none; /* Initially hidden */
+        }
+
         .download-section {
             margin-top: 50px;
             padding: 20px;
@@ -100,6 +107,10 @@
             background: rgba(0, 0, 0, 0.6);
             border-radius: 12px;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
         }
 
         .download-btn {
@@ -117,6 +128,11 @@
         .download-btn:hover {
             background: linear-gradient(135deg, #f57c00, #e65100);
             transform: scale(1.1);
+        }
+
+        .store-logo {
+            width: 50px;
+            height: auto;
         }
 
         /* Responsive Design */
@@ -145,6 +161,10 @@
             .pan-image {
                 width: 150px;
             }
+
+            .store-logo {
+                width: 40px;
+            }
         }
     </style>
 </head>
@@ -160,12 +180,16 @@
         <button class="copy-btn" onclick="copyUID()">Copy UID</button>
     </div>
 
+    <!-- Notification -->
+    <div id="copy-notification" class="copy-notification">UID copied to clipboard!</div>
+
     <!-- Animated Pan -->
     <img src="Pan.png" alt="Pan Image" class="pan-image">
 
     <!-- Download Section -->
     <div class="download-section">
-        <p>Don't have BGMI yet? Download it now!</p>
+        <img src="PlayStore.png" alt="Play Store" class="store-logo">
+        <img src="AppStore.png" alt="App Store" class="store-logo">
         <button class="download-btn" onclick="downloadBGMI()">Download BGMI</button>
     </div>
 
@@ -177,12 +201,19 @@
         function copyUID() {
             const uid = document.getElementById("bgmi-uid").innerText;
             const audio = document.getElementById("pubg-audio");
+            const notification = document.getElementById("copy-notification");
 
             // Copy UID to clipboard
             navigator.clipboard.writeText(uid).then(() => {
                 // Play audio
                 audio.currentTime = 0; // Reset to start
                 audio.play();
+
+                // Show notification
+                notification.style.display = "block";
+                setTimeout(() => {
+                    notification.style.display = "none"; // Hide after 3 seconds
+                }, 3000);
             }).catch(err => {
                 console.error("Failed to copy UID: ", err);
             });
@@ -192,7 +223,7 @@
         function downloadBGMI() {
             const userAgent = navigator.userAgent || navigator.vendor || window.opera;
 
-            if (/android/i.test(userAgent)) {
+            if (/android/i.test(userAgent) || /tablet/i.test(userAgent)) {
                 // Redirect to Google Play Store
                 window.location.href = "https://play.google.com/store/apps/details?id=com.pubg.imobile";
             } else if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
