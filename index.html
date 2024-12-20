@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Play BGMI With Me</title>
     <style>
-        /* General Styles */
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
 
         body {
@@ -25,7 +24,6 @@
         h1 {
             font-size: 3rem;
             font-weight: 700;
-            letter-spacing: 2px;
             text-shadow: 2px 4px 4px rgba(0, 0, 0, 0.5);
             margin-top: 20px;
         }
@@ -101,19 +99,19 @@
         }
 
         .download-section {
-            margin-top: 50px;
+            margin-top: 30px;
             padding: 20px;
             text-align: center;
             background: rgba(0, 0, 0, 0.6);
             border-radius: 12px;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 20px;
         }
 
         .download-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
             background: linear-gradient(135deg, #ff9800, #f57c00);
             color: #fff;
             border: none;
@@ -125,14 +123,21 @@
             transition: background 0.3s ease, transform 0.3s ease;
         }
 
+        .download-btn img {
+            width: 30px;
+            height: auto;
+        }
+
         .download-btn:hover {
             background: linear-gradient(135deg, #f57c00, #e65100);
             transform: scale(1.1);
         }
 
-        .store-logo {
-            width: 50px;
-            height: auto;
+        .download-text {
+            font-size: 1.2rem;
+            margin-top: 10px;
+            color: #ffeb3b;
+            font-weight: 500;
         }
 
         /* Responsive Design */
@@ -162,8 +167,8 @@
                 width: 150px;
             }
 
-            .store-logo {
-                width: 40px;
+            .download-btn img {
+                width: 25px;
             }
         }
     </style>
@@ -186,11 +191,15 @@
     <!-- Animated Pan -->
     <img src="Pan.png" alt="Pan Image" class="pan-image">
 
+    <p class="download-text">Don't have BGMI yet? Download it now!</p>
+
     <!-- Download Section -->
     <div class="download-section">
-        <img src="Playstore.png" alt="Play Store" class="store-logo">
-        <img src="Appstore.png" alt="App Store" class="store-logo">
-        <button class="download-btn" onclick="downloadBGMI()">Download BGMI</button>
+        <button class="download-btn" onclick="downloadBGMI()">
+            <img src="Playstore.png" alt="Play Store Logo">
+            <img src="Appstore.png" alt="App Store Logo">
+            Download BGMI
+        </button>
     </div>
 
     <!-- Audio Element -->
