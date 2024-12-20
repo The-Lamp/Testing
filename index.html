@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Play BGMI With Me</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #1e90ff, #ff6347);
+            color: #fff;
+            text-align: center;
+            transition: background 0.3s ease;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin: 20px 0;
+        }
+
+        p {
+            font-size: 1.2rem;
+            margin: 15px 0;
+        }
+
+        .uid-box {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 15px 20px;
+            border-radius: 10px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .uid-box span {
+            font-size: 1.5rem;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .uid-box span:hover {
+            color: #ffeb3b;
+        }
+
+        .bgmi-logo, .pubg-logo, .pan-image {
+            margin: 20px 0;
+        }
+
+        .bgmi-logo {
+            width: 100px;
+        }
+
+        .pubg-logo {
+            width: 150px; /* Larger PUBG logo */
+        }
+
+        .pan-image {
+            width: 50px; /* Smaller Pan image */
+            animation: float 2s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .copy-btn {
+            background: #00c853;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.3s;
+        }
+
+        .copy-btn:hover {
+            background: #008c3a;
+        }
+
+        .copy-notification {
+            margin-top: 10px;
+            font-size: 1rem;
+            color: #ffeb3b;
+            display: none; /* Initially hidden */
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            p {
+                font-size: 1rem;
+            }
+
+            .uid-box span {
+                font-size: 1.2rem;
+            }
+
+            .copy-btn {
+                padding: 8px 16px;
+                font-size: 0.9rem;
+            }
+
+            .pubg-logo {
+                width: 100px; 
+            }
+
+            .pan-image {
+                width: 40px; /* Smaller pan for mobile */
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- PUBG Logo -->
+    <img src="Pubglogo.png" alt="PUBG Logo" class="pubg-logo">
+
+    <!-- BGMI Section -->
+    <img src="https://upload.wikimedia.org/wikipedia/commons/e/e8/Battlegrounds_India_logo.png" alt="BGMI Logo" class="bgmi-logo">
+    <h1>Play BGMI With Me</h1>
+    <p>Join me in BGMI using my UID below!</p>
+
+    <!-- UID Display -->
+    <div class="uid-box">
+        <span id="bgmi-uid">55698234932</span>
+        <button class="copy-btn" onclick="copyUID()">Copy UID</button>
+    </div>
+
+    <!-- Notification -->
+    <div id="copy-notification" class="copy-notification">UID copied to clipboard!</div>
+
+    <!-- Animated Pan -->
+    <img src="Pan.png" alt="Pan Image" class="pan-image">
+
+    <script>
+        // Copy UID Functionality
+        function copyUID() {
+            const uid = document.getElementById("bgmi-uid").innerText;
+            navigator.clipboard.writeText(uid).then(() => {
+                const notification = document.getElementById("copy-notification");
+                notification.style.display = "block"; // Show notification
+                setTimeout(() => {
+                    notification.style.display = "none"; // Hide after 3 seconds
+                }, 3000);
+            }).catch(err => {
+                console.error("Failed to copy UID: ", err);
+            });
+        }
+    </script>
+</body>
+</html>
