@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Play BGMI With Me</title>
     <style>
-        /* General Styles */
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
 
         body {
@@ -19,13 +18,13 @@
             color: #fff;
             text-align: center;
             min-height: 100vh;
-            overflow-y: auto; /* Allow vertical scrolling */
+            overflow-y: auto;
+            position: relative; /* For sticky footer */
         }
 
         h1 {
             font-size: 3rem;
             font-weight: 700;
-            letter-spacing: 2px;
             text-shadow: 2px 4px 4px rgba(0, 0, 0, 0.5);
             margin-top: 20px;
         }
@@ -100,6 +99,76 @@
             display: none; /* Initially hidden */
         }
 
+        .download-section {
+            margin-top: 30px;
+            padding: 20px;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .download-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: linear-gradient(135deg, #ff9800, #f57c00);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            font-weight: 600;
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+
+        .download-btn img {
+            width: 30px;
+            height: auto;
+        }
+
+        .download-btn:hover {
+            background: linear-gradient(135deg, #f57c00, #e65100);
+            transform: scale(1.1);
+        }
+
+        .download-text {
+            font-size: 1.2rem;
+            margin-top: 10px;
+            color: #ffeb3b;
+            font-weight: 500;
+        }
+
+        /* Sticky Footer Section */
+        .sticky-footer {
+            position: sticky;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            text-align: center;
+            border-top: 3px solid #ffeb3b;
+            box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.4);
+        }
+
+        .footer-text {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: #ffeb3b;
+        }
+
+        .footer-image {
+            width: 100px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .footer-image:hover {
+            transform: scale(1.1);
+        }
+
         /* Responsive Design */
         @media (max-width: 600px) {
             h1 {
@@ -127,8 +196,16 @@
                 width: 150px;
             }
 
-            .store-logo {
-                width: 40px;
+            .download-btn img {
+                width: 25px;
+            }
+
+            .footer-text {
+                font-size: 1rem;
+            }
+
+            .footer-image {
+                width: 80px;
             }
         }
     </style>
@@ -150,6 +227,23 @@
 
     <!-- Animated Pan -->
     <img src="Pan.png" alt="Pan Image" class="pan-image">
+
+    <p class="download-text">Don't have BGMI yet? Download it now!</p>
+
+    <!-- Download Section -->
+    <div class="download-section">
+        <button class="download-btn" onclick="downloadBGMI()">
+            <img src="Playstore.png" alt="Play Store Logo">
+            <img src="Appstore.png" alt="App Store Logo">
+            Download BGMI
+        </button>
+    </div>
+
+    <!-- Sticky Footer -->
+    <div class="sticky-footer">
+        <p class="footer-text">Don't have BGMI yet? Download it now!</p>
+        <img src="store.png" alt="Download BGMI" class="footer-image" onclick="downloadBGMI()">
+    </div>
 
     <!-- Audio Element -->
     <audio id="pubg-audio" src="Pubg.mp3"></audio>
@@ -175,6 +269,21 @@
             }).catch(err => {
                 console.error("Failed to copy UID: ", err);
             });
+        }
+
+        // Detect User Device and Redirect to App Store or Play Store
+        function downloadBGMI() {
+            const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+            if (/android/i.test(userAgent) || /tablet/i.test(userAgent)) {
+                // Redirect to Google Play Store
+                window.location.href = "https://play.google.com/store/apps/details?id=com.pubg.imobile";
+            } else if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+                // Redirect to Apple App Store
+                window.location.href = "https://apps.apple.com/app/id1526436837";
+            } else {
+                alert("BGMI is only available for Android and iOS devices.");
+            }
         }
     </script>
 </body>
