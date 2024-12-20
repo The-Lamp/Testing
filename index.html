@@ -12,10 +12,13 @@
             font-family: 'Poppins', sans-serif;
             margin: 0;
             padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             background: linear-gradient(135deg, #1e90ff, #ff6347);
             color: #fff;
             text-align: center;
-            height: 100vh;
+            min-height: 100vh;
             overflow-y: auto; /* Allow vertical scrolling */
         }
 
@@ -24,6 +27,7 @@
             font-weight: 700;
             letter-spacing: 2px;
             text-shadow: 2px 4px 4px rgba(0, 0, 0, 0.5);
+            margin-top: 20px;
         }
 
         p {
@@ -41,6 +45,7 @@
             align-items: center;
             gap: 20px;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+            margin-top: 20px;
         }
 
         .uid-box span {
@@ -76,6 +81,42 @@
 
         .pan-image {
             width: 180px;
+            animation: float 2s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-15px);
+            }
+        }
+
+        .download-section {
+            margin-top: 50px;
+            padding: 20px;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .download-btn {
+            background: linear-gradient(135deg, #ff9800, #f57c00);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            font-weight: 600;
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+
+        .download-btn:hover {
+            background: linear-gradient(135deg, #f57c00, #e65100);
+            transform: scale(1.1);
         }
 
         /* Responsive Design */
@@ -122,6 +163,12 @@
     <!-- Animated Pan -->
     <img src="Pan.png" alt="Pan Image" class="pan-image">
 
+    <!-- Download Section -->
+    <div class="download-section">
+        <p>Don't have BGMI yet? Download it now!</p>
+        <button class="download-btn" onclick="downloadBGMI()">Download BGMI</button>
+    </div>
+
     <!-- Audio Element -->
     <audio id="pubg-audio" src="Pubg.mp3"></audio>
 
@@ -139,6 +186,21 @@
             }).catch(err => {
                 console.error("Failed to copy UID: ", err);
             });
+        }
+
+        // Detect User Device and Redirect to App Store or Play Store
+        function downloadBGMI() {
+            const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+            if (/android/i.test(userAgent)) {
+                // Redirect to Google Play Store
+                window.location.href = "https://play.google.com/store/apps/details?id=com.pubg.imobile";
+            } else if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+                // Redirect to Apple App Store
+                window.location.href = "https://apps.apple.com/app/id1526436837";
+            } else {
+                alert("BGMI is only available for Android and iOS devices.");
+            }
         }
     </script>
 </body>
