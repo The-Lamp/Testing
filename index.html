@@ -19,7 +19,6 @@
             text-align: center;
             min-height: 100vh;
             overflow-y: auto;
-            position: relative; /* For sticky footer */
         }
 
         h1 {
@@ -99,64 +98,12 @@
             display: none; /* Initially hidden */
         }
 
-        .download-section {
-            margin-top: 30px;
-            padding: 20px;
-            text-align: center;
-            background: rgba(0, 0, 0, 0.6);
-            border-radius: 12px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-        }
-
-        .download-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            background: linear-gradient(135deg, #ff9800, #f57c00);
-            color: #fff;
-            border: none;
-            border-radius: 8px;
-            padding: 10px 20px;
-            cursor: pointer;
-            font-size: 1.2rem;
-            font-weight: 600;
-            transition: background 0.3s ease, transform 0.3s ease;
-        }
-
-        .download-btn img {
-            width: 30px;
-            height: auto;
-        }
-
-        .download-btn:hover {
-            background: linear-gradient(135deg, #f57c00, #e65100);
-            transform: scale(1.1);
-        }
-
-        .download-text {
-            font-size: 1.2rem;
-            margin-top: 10px;
-            color: #ffeb3b;
-            font-weight: 500;
-        }
-
-        /* Sticky Footer Section */
-        .sticky-footer {
-            position: sticky;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.7);
-            padding: 20px;
-            text-align: center;
-            border-top: 3px solid #ffeb3b;
-            box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.4);
-        }
-
         .footer-text {
             font-size: 1.3rem;
             margin-bottom: 10px;
             font-weight: bold;
             color: #ffeb3b;
+            text-shadow: 1px 3px 3px rgba(0, 0, 0, 0.5);
         }
 
         .footer-image {
@@ -196,10 +143,6 @@
                 width: 150px;
             }
 
-            .download-btn img {
-                width: 25px;
-            }
-
             .footer-text {
                 font-size: 1rem;
             }
@@ -228,21 +171,10 @@
     <!-- Animated Pan -->
     <img src="Pan.png" alt="Pan Image" class="pan-image">
 
-    <p class="download-text">Don't have BGMI yet? Download it now!</p>
-
-    <!-- Download Section -->
-    <div class="download-section">
-        <button class="download-btn" onclick="downloadBGMI()">
-            <img src="Playstore.png" alt="Play Store Logo">
-            <img src="Appstore.png" alt="App Store Logo">
-            Download BGMI
-        </button>
-    </div>
-
-    <!-- Sticky Footer -->
-    <div class="sticky-footer">
+    <!-- Footer Section -->
+    <div>
         <p class="footer-text">Don't have BGMI yet? Download it now!</p>
-        <img src="store.png" alt="Download BGMI" class="footer-image" onclick="downloadBGMI()">
+        <img src="DownloadImage.png" alt="Download BGMI" class="footer-image" onclick="downloadBGMI()">
     </div>
 
     <!-- Audio Element -->
