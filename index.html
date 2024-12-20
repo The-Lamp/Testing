@@ -6,8 +6,10 @@
     <title>Play BGMI With Me</title>
     <style>
         /* General Styles */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+        
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Poppins', sans-serif;
             margin: 0;
             padding: 0;
             display: flex;
@@ -18,49 +20,95 @@
             background: linear-gradient(135deg, #1e90ff, #ff6347);
             color: #fff;
             text-align: center;
-            transition: background 0.3s ease;
+            animation: fadeIn 1.5s ease-in-out;
+            overflow: hidden;
         }
 
         h1 {
-            font-size: 2.5rem;
-            margin: 20px 0;
+            font-size: 3rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-shadow: 2px 4px 4px rgba(0, 0, 0, 0.5);
         }
 
         p {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
+            font-weight: 400;
             margin: 15px 0;
+            text-shadow: 1px 3px 3px rgba(0, 0, 0, 0.3);
         }
 
         .uid-box {
-            background: rgba(0, 0, 0, 0.5);
-            padding: 15px 20px;
-            border-radius: 10px;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 15px 30px;
+            border-radius: 12px;
             display: inline-flex;
             align-items: center;
-            gap: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            gap: 20px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+            position: relative;
+            animation: bounce 1.5s infinite ease-in-out;
         }
 
         .uid-box span {
-            font-size: 1.5rem;
+            font-size: 2rem;
             font-weight: bold;
             cursor: pointer;
+            transition: color 0.3s ease;
         }
 
         .uid-box span:hover {
             color: #ffeb3b;
         }
 
+        .copy-btn {
+            background: linear-gradient(135deg, #00c853, #009624);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            font-weight: 600;
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+
+        .copy-btn:hover {
+            background: linear-gradient(135deg, #008c3a, #006a2e);
+            transform: scale(1.1);
+        }
+
+        .tooltip {
+            position: absolute;
+            bottom: -35px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.7);
+            color: #ffeb3b;
+            padding: 8px 12px;
+            font-size: 0.9rem;
+            border-radius: 6px;
+            opacity: 0;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            pointer-events: none;
+        }
+
+        .tooltip.visible {
+            opacity: 1;
+            transform: translateX(-50%) translateY(-10px);
+        }
+
         .pubg-logo, .pan-image {
             margin: 20px 0;
         }
-        
+
         .pubg-logo {
-            width: 240px; /* Larger PUBG logo */
+            width: 300px; /* Larger PUBG logo */
+            animation: slideIn 1s ease forwards;
         }
 
         .pan-image {
-            width: 150px; /* Smaller Pan image */
+            width: 180px; /* Larger Pan */
             animation: float 2s infinite ease-in-out;
         }
 
@@ -69,30 +117,37 @@
                 transform: translateY(0);
             }
             50% {
-                transform: translateY(-10px);
+                transform: translateY(-15px);
             }
         }
 
-        .copy-btn {
-            background: #00c853;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            padding: 10px 20px;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: background 0.3s;
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-8px);
+            }
         }
 
-        .copy-btn:hover {
-            background: #008c3a;
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
         }
 
-        .copy-notification {
-            margin-top: 10px;
-            font-size: 1rem;
-            color: #ffeb3b;
-            display: none; /* Initially hidden */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
         }
 
         /* Responsive Design */
@@ -106,7 +161,7 @@
             }
 
             .uid-box span {
-                font-size: 1.2rem;
+                font-size: 1.5rem;
             }
 
             .copy-btn {
@@ -115,11 +170,11 @@
             }
 
             .pubg-logo {
-                width: 300px; 
+                width: 240px;
             }
 
             .pan-image {
-                width: 150px; /* Smaller pan for mobile */
+                width: 150px;
             }
         }
     </style>
@@ -134,24 +189,23 @@
     <div class="uid-box">
         <span id="bgmi-uid">55698234932</span>
         <button class="copy-btn" onclick="copyUID()">Copy UID</button>
+        <div id="tooltip" class="tooltip">Copied to clipboard!</div>
     </div>
-
-    <!-- Notification -->
-    <div id="copy-notification" class="copy-notification">UID copied to clipboard!</div>
 
     <!-- Animated Pan -->
     <img src="Pan.png" alt="Pan Image" class="pan-image">
 
     <script>
-        // Copy UID Functionality
+        // Copy UID Functionality with Tooltip
         function copyUID() {
             const uid = document.getElementById("bgmi-uid").innerText;
+            const tooltip = document.getElementById("tooltip");
+
             navigator.clipboard.writeText(uid).then(() => {
-                const notification = document.getElementById("copy-notification");
-                notification.style.display = "block"; // Show notification
+                tooltip.classList.add("visible"); // Show tooltip
                 setTimeout(() => {
-                    notification.style.display = "none"; // Hide after 3 seconds
-                }, 3000);
+                    tooltip.classList.remove("visible"); // Hide tooltip after 2 seconds
+                }, 2000);
             }).catch(err => {
                 console.error("Failed to copy UID: ", err);
             });
