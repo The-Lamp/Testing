@@ -1,24 +1,140 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chrome Dinosaur Game</title>
-
-    <!-- Style CSS -->
-    <link rel="stylesheet" href="./style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dino Run Game</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+    }
+    canvas {
+      display: block;
+      background: #f7f7f7;
+    }
+    #score {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      font-size: 20px;
+      font-weight: bold;
+    }
+  </style>
 </head>
 <body>
-    <div class="main">
-        <div class="container">
-            <h1>Chrome Dinosaur Game</h1>
-            <canvas id="board"></canvas>
-            <button id="startBtn">Start Game</button>
-            <div id="result"></div>
-        </div>
-    </div>
+  <div id="score">Score: 0</div>
+  <canvas id="gameCanvas"></canvas>
 
-    <!-- Script JS -->
-    <script src="./script.js"></script>
+  <script>
+    const canvas = document.getElementById("gameCanvas");
+    const ctx = canvas.getContext("2d");
+
+    canvas.width = window.innerWidth;
+    canvas.height = 400;
+
+    // Load images
+    const dinoRun = [loadImage("img/dino-run1.png"), loadImage("img/dino-run2.png")];
+    const dinoJump = loadImage("img/dino-jump.png");
+    const cactusImages = [
+      loadImage("img/cactus1.png"),
+      loadImage("img/cactus2.png"),
+      loadImage("img/cactus3.png"),
+    ];
+    const groundImage = loadImage("img/track.png");
+
+    function loadImage(src) {
+      const img = new Image();
+      img.src = `img/${src}`;
+      return img;
+    }
+
+    // Game variables
+    let dino = { x: 50, y: 250, width: 50, height: 50, jumping: false, vy: 0 };
+    let cacti = [];
+    let frame = 0;
+    let score = 0;
+
+    const gravity = 0.8;
+    const jumpForce = -12;
+
+    // Game loop
+    function gameLoop() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Draw ground
+      ctx.drawImage(groundImage, 0, 300, canvas.width, 100);
+
+      // Dino movement
+      if (dino.jumping) {
+        dino.vy += gravity;
+        dino.y += dino.vy;
+
+        if (dino.y > 250) {
+          dino.jumping = false;
+          dino.y = 250;
+          dino.vy = 0;
+        }
+
+        ctx.drawImage(dinoJump, dino.x, dino.y, dino.width, dino.height);
+      } else {
+        const runFrame = Math.floor(frame / 10) % 2;
+        ctx.drawImage(dinoRun[runFrame], dino.x, dino.y, dino.width, dino.height);
+      }
+
+      // Spawn cacti
+      if (frame % 100 === 0) {
+        const cactus = {
+          x: canvas.width,
+          y: 250,
+          width: 50,
+          height: 50,
+          img: cactusImages[Math.floor(Math.random() * cactusImages.length)],
+        };
+        cacti.push(cactus);
+      }
+
+      // Move and draw cacti
+      cacti.forEach((cactus, index) => {
+        cactus.x -= 5;
+        ctx.drawImage(cactus.img, cactus.x, cactus.y, cactus.width, cactus.height);
+
+        // Collision detection
+        if (
+          dino.x < cactus.x + cactus.width &&
+          dino.x + dino.width > cactus.x &&
+          dino.y < cactus.y + cactus.height &&
+          dino.y + dino.height > cactus.y
+        ) {
+          alert("Game Over! Final Score: " + score);
+          document.location.reload();
+        }
+
+        // Remove cactus if off-screen
+        if (cactus.x + cactus.width < 0) {
+          cacti.splice(index, 1);
+          score++;
+        }
+      });
+
+      // Update score
+      document.getElementById("score").textContent = "Score: " + score;
+
+      frame++;
+      requestAnimationFrame(gameLoop);
+    }
+
+    // Jump on space key
+    window.addEventListener("keydown", (e) => {
+      if (e.code === "Space" && !dino.jumping) {
+        dino.jumping = true;
+        dino.vy = jumpForce;
+      }
+    });
+
+    // Start game
+    gameLoop();
+  </script>
 </body>
 </html>
