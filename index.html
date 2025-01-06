@@ -1,30 +1,24 @@
 <!DOCTYPE html>
-<html>
-	<head>
-		<title>RAWRRRR!</title>
-		<link rel="stylesheet" href="style.css"> 
-	</head>
-	<body>
-		<!-- 
-			Boilerplate to start the basic layout. 
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chrome Dinosaur Game</title>
 
-			Making the canvas white will make our work space really obvious.
-		-->
-		<h1>Dinosaur Game!</h1>
-		<canvas id="game" height="200" width="800"></canvas>
-		<p class="controls">press space bar to start</p>
+    <!-- Style CSS -->
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <div class="main">
+        <div class="container">
+            <h1>Chrome Dinosaur Game</h1>
+            <canvas id="board"></canvas>
+            <button id="startBtn">Start Game</button>
+            <div id="result"></div>
+        </div>
+    </div>
 
-        <script src="js/helpers.js"></script>
-        <script src="js/objects/game-object.js"></script>
-        <script src="js/objects/cactus.js"></script>
-        <script src="js/objects/dinosaur.js"></script>
-        <script src="js/objects/background.js"></script>
-        <script src="js/objects/score.js"></script>
-        <script src="js/game.js"></script>
-        <script>
-        	new Game({
-        		el: document.getElementById("game")
-        	});
-        </script>
-	</body>
+    <!-- Script JS -->
+    <script src="./script.js"></script>
+</body>
 </html>
