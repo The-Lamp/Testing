@@ -18,40 +18,40 @@
       height: 100vh;
       text-align: center;
       overflow: hidden;
-    }
-
-    .container {
-      background: rgba(255, 255, 255, 0.8);
-      border-radius: 15px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-      padding: 30px 20px;
-      width: 90%;
-      max-width: 400px;
       animation: fadeIn 1s ease-in-out;
     }
 
     .title {
-      font-size: 2.2rem;
+      font-size: 2.5rem;
       font-weight: bold;
       color: #ff6f61;
-      margin-bottom: 10px;
       display: flex;
       align-items: center;
       justify-content: center;
+      margin-bottom: 10px;
+    }
+
+    .title img {
+      width: 50px;
+      height: auto;
+      margin-left: 10px;
+      transform: rotate(-15deg);
+      animation: bounce 2s infinite;
     }
 
     img.logo {
-      width: 120px;
+      width: 150px;
       height: auto;
       margin: 20px 0;
       animation: pulse 1.5s infinite;
     }
 
     p {
-      font-size: 1rem;
+      font-size: 1.2rem;
       color: #555;
       margin: 10px 0;
-      line-height: 1.5;
+      padding: 0 20px;
+      line-height: 1.6;
     }
 
     .refresh-button {
@@ -110,14 +110,13 @@
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="title">
-      <span>Oops! You're Offline</span>
-    </div>
-    <img class="logo" src="Offlinelogo.png" alt="Logo">
-    <p>Abey tumhara network kaha hai? Kahin wo bhi apni girlfriend ke saath nahi chala gaya? Jaldi bulao usse!</p>
-    <p>Agar nahi mila, Wi-Fi connect karo... ya fir wo bhi bijli ka bill bharne gaya hai?</p>
-    <button class="refresh-button" onclick="window.location.reload()">Refresh</button>
+  <div class="title">
+    <span>Oops! You're Offline</span>
+    <img src="Offlinelogo.png" alt="Icon">
   </div>
+  <img class="logo" src="Offlinelogo.png" alt="Logo">
+  <p>Abey tumhara network kaha hai? Kahin wo bhi apni girlfriend ke saath nahi chala gaya? Jaldi bulao usse!</p>
+  <p>Agar nahi mila, Wi-Fi connect karo... ya fir wo bhi bijli ka bill bharne gaya hai?</p>
+  <button class="refresh-button" onclick="window.location.reload()">Refresh</button>
 </body>
 </html>
