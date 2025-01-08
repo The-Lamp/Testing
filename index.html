@@ -14,48 +14,27 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      flex-direction: column;
       height: 100vh;
+      text-align: center;
       overflow: hidden;
     }
 
-    .container {
-      text-align: center;
-      animation: fadeIn 2s ease-in-out;
+    h1 img {
+      width: 300px;
+      height: auto;
     }
 
-    h1 {
-      font-size: 3rem;
-      margin: 0;
+    img.logo {
+      width: 150px;
+      height: auto;
+      margin: 20px 0;
     }
 
     p {
       font-size: 1.2rem;
-      margin: 10px 0 20px;
-    }
-
-    .emoji {
-      font-size: 5rem;
-      animation: bounce 1.5s infinite;
-    }
-
-    @keyframes fadeIn {
-      0% {
-        opacity: 0;
-        transform: scale(0.9);
-      }
-      100% {
-        opacity: 1;
-        transform: scale(1);
-      }
-    }
-
-    @keyframes bounce {
-      0%, 100% {
-        transform: translateY(0);
-      }
-      50% {
-        transform: translateY(-20px);
-      }
+      margin: 20px 0;
+      padding: 0 15px;
     }
 
     .refresh-button {
@@ -75,11 +54,10 @@
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="emoji">📴</div>
-    <h1>Oops! You're Offline</h1>
-    <p>Lagta hai internet chhutti par hai! <br> Wapas online hone ke liye refresh karein.</p>
-    <button class="refresh-button" onclick="window.location.reload()">Refresh</button>
-  </div>
+  <h1><img src="offlinetxt.jpg" alt="Offline"></h1>
+  <img class="logo" src="logo.jpg" alt="Logo">
+  <p>Abey tumhara network kaha hai, kahi wo bhi to apni girlfriend ke sath nahi chala gaya, jaldi bulao use.......</p>
+  <p>Nahi to Wi-Fi connect karo, ya fir wo bhi bijli ka bil bharne gaya hai</p>
+  <button class="refresh-button" onclick="window.location.reload()">Refresh</button>
 </body>
 </html>
