@@ -20,9 +20,18 @@
       overflow: hidden;
     }
 
-    h1 img {
-      width: 300px;
+    .title {
+      font-size: 2.5rem;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .title img {
+      width: 150px;
       height: auto;
+      margin-left: 10px;
     }
 
     img.logo {
@@ -54,7 +63,10 @@
   </style>
 </head>
 <body>
-  <h1><img src="Offlinetxt.png" alt="Offline"></h1>
+  <div class="title">
+    <span>Oops you are</span>
+    <img src="Offlinetxt.png" alt="Offline">
+  </div>
   <img class="logo" src="Offlinelogo.png" alt="Logo">
   <p>Abey tumhara network kaha hai, kahi wo bhi to apni girlfriend ke sath nahi chala gaya, jaldi bulao use.......</p>
   <p>Nahi to Wi-Fi connect karo, ya fir wo bhi bijli ka bil bharne gaya hai</p>
