@@ -1,112 +1,99 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Oops! You're Offline</title>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
-      font-family: 'Poppins', sans-serif;
-      color: #333;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      height: 100vh;
-      text-align: center;
-      overflow: hidden;
-      animation: fadeIn 1s ease-in-out;
-    }
-
-    .title {
-      font-size: 2.5rem;
-      font-weight: bold;
-      color: #ff6f61;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 10px;
-    }
-
-    img.logo {
-      width: 150px;
-      height: auto;
-      margin: 20px 0;
-      animation: pulse 1.5s infinite;
-    }
-
-    p {
-      font-size: 1.2rem;
-      color: #555;
-      margin: 10px 0;
-      padding: 0 20px;
-      line-height: 1.6;
-    }
-
-    .refresh-button {
-  width: 200px;
-  height: 50px;
-  font-size: 1rem;
-  font-weight: bold;
-  color: #fff;
-  background-color: #2f3640;
-  border: 1px solid #707070;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.3s ease-in-out;
-}
-
-.refresh-button:hover {
-  background-color: #414952;
-  transform: scale(1.05);
-}
-
-    @keyframes bounce {
-      0%, 20%, 50%, 80%, 100% {
-        transform: translateY(0) rotate(-15deg);
-      }
-      40% {
-        transform: translateY(-10px) rotate(-15deg);
-      }
-      60% {
-        transform: translateY(-5px) rotate(-15deg);
-      }
-    }
-
-    @keyframes pulse {
-      0% {
-        transform: scale(1);
-      }
-      50% {
-        transform: scale(1.05);
-      }
-      100% {
-        transform: scale(1);
-      }
-    }
-
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Save and Protect</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+        }
+        .container {
+            margin-bottom: 20px;
+        }
+        button {
+            margin-top: 10px;
+            padding: 10px;
+        }
+    </style>
 </head>
 <body>
-  <div class="title">
-    <span>Oops! You're Offline</span>
-  </div>
-  <img class="logo" src="Offlinelogo.png" alt="Logo">
-  <p>Abey tumhara network kaha hai? Kahin wo bhi to apni girlfriend ke saath nahi chala gaya? Jaldi bulao usse!</p>
-  <p>Nahi to Wi-Fi connect karo... ya fir wo bhi बिजली का बिल भरने गया है?</p>
-  <button class="refresh-button" onclick="window.location.reload()">Refresh</button>
+    <h1>Word Save and Protect</h1>
+
+    <!-- Save Words to .txt -->
+    <div class="container">
+        <h2>Save Words to .txt File</h2>
+        <textarea id="wordBox" rows="5" cols="50" placeholder="Type your words here..."></textarea><br>
+        <button onclick="saveToTxt()">Save to .txt</button>
+    </div>
+
+    <!-- Password Protect .txt -->
+    <div class="container">
+        <h2>Encrypt .txt File with Password</h2>
+        <input type="file" id="fileInput" accept=".txt"><br>
+        <input type="password" id="passwordInput" placeholder="Enter Password"><br>
+        <button onclick="encryptFile()">Protect File</button>
+        <a id="downloadLink" style="display:none;">Download Encrypted File</a>
+    </div>
+
+    <script>
+        // Save words to .txt file
+        function saveToTxt() {
+            const content = document.getElementById("wordBox").value;
+            const blob = new Blob([content], { type: "text/plain" });
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = "words.txt";
+            link.click();
+        }
+
+        // Encrypt file with password
+        async function encryptFile() {
+            const fileInput = document.getElementById("fileInput").files[0];
+            const password = document.getElementById("passwordInput").value;
+
+            if (!fileInput || !password) {
+                alert("Please select a file and enter a password.");
+                return;
+            }
+
+            // Read file content
+            const fileContent = await fileInput.text();
+
+            // Encrypt file content
+            const encoder = new TextEncoder();
+            const data = encoder.encode(fileContent);
+            const passwordHash = await crypto.subtle.digest("SHA-256", encoder.encode(password));
+            const key = await crypto.subtle.importKey(
+                "raw",
+                passwordHash,
+                { name: "AES-GCM" },
+                false,
+                ["encrypt"]
+            );
+
+            const iv = crypto.getRandomValues(new Uint8Array(12));
+            const encryptedData = await crypto.subtle.encrypt(
+                { name: "AES-GCM", iv },
+                key,
+                data
+            );
+
+            // Combine IV and encrypted data
+            const combined = new Uint8Array(iv.length + encryptedData.byteLength);
+            combined.set(iv);
+            combined.set(new Uint8Array(encryptedData), iv.length);
+
+            // Create downloadable encrypted file
+            const blob = new Blob([combined], { type: "application/octet-stream" });
+            const downloadLink = document.getElementById("downloadLink");
+            downloadLink.href = URL.createObjectURL(blob);
+            downloadLink.download = "protected.txt";
+            downloadLink.style.display = "inline-block";
+            downloadLink.textContent = "Download Protected File";
+        }
+    </script>
 </body>
 </html>
